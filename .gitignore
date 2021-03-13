@@ -1,0 +1,4 @@
+.idea/
+__pycache__
+scraper/node_modules/
+scraper/package-lock.json
