@@ -5,25 +5,22 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+BASE_URL = 'https://jobs.bdjobs.com/'
+
+
 def fetch_page(url):
     r = requests.get(url)
     return r.text
 
 
 def get_all_job_details(job_links):
-    url_list = []
     jobs_details = []
-    for job_link in job_links:
-        url = 'https://jobs.bdjobs.com/{}'.format(job_link)
-        url_list.append(url)
-    for url in url_list:
+    for url in job_links:
         try:
             body = {}
             page = fetch_page(url)
-            logger.error(url)
             ob = Mapper(page=page)
             body = ob._read_from_HTML()
-            # print(body)
 
         except Exception as ex:
 
@@ -35,8 +32,13 @@ def get_all_job_details(job_links):
                 'created_at': int(time.time())
             }
             data = {**body, **keys}
+            logger.info(body)
             jobs_details.append(data)
     return jobs_details
+
+
+def create_absolute_url(partial_url):
+    return "{}{}".format(BASE_URL, partial_url)
 
 
 def read_jobs_links(filename):
@@ -46,4 +48,6 @@ def read_jobs_links(filename):
     :return:
     """
     file = open(filename, 'r')
-    return [line.strip() for line in file.readlines()]
+
+    raw_list = [str(line.strip()) for line in file.readlines()]
+    return [create_absolute_url(line) for line in raw_list]
