@@ -1,8 +1,7 @@
 import os
 import boto3
 import json
-
-BUCKET_NAME = 'jobstext-v2'
+from settings import BUCKET_NAME
 
 
 def upload_jobs_details(key, content):

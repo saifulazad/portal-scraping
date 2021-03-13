@@ -1,15 +1,15 @@
-import boto3
 import datetime
 from s3.utils import upload_jobs_details
 from bulk_job_processor import get_all_job_details, create_absolute_url
 import smart_open
+from settings import BUCKET_NAME
+
 
 def lambda_handler(event, context):
-    s3 = boto3.client("s3")
     file_obj = event["Records"][0]
-
     filename = str(file_obj['s3']['object']['key'])
-    job_links = [line.strip().decode("utf-8") for line in smart_open.smart_open(f's3://jobstext-v2/{filename}')]
+    job_links = [line.strip().decode("utf-8")
+                 for line in smart_open.smart_open(f's3://{BUCKET_NAME}/{filename}')]
 
     absolute_job_urls = [create_absolute_url(line) for line in job_links]
 
