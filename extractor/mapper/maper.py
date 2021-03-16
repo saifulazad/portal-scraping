@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-
+import copy
 
 class Mapper(object):
     def __init__(self, page):
@@ -37,25 +37,28 @@ class Mapper(object):
         self.soup = BeautifulSoup(page, "html.parser")  # Consume HTML page from requests library
 
     def _read_basic_info(self):
-        for key in self.class_value_no_list:
-            informations = self.soup.find(self.class_value_no_list[key]['tag'], attrs={'class': key})
-            self.class_value_no_list[key]['info'] = informations.text.strip()  # Store those as 'info' key
-            del self.class_value_no_list[key]['tag']
-            del self.class_value_no_list[key]['name']
-        return self.class_value_no_list
+        class_value_no_list_cloned = copy.deepcopy(self.class_value_no_list)
+        for key in class_value_no_list_cloned:
+            information = self.soup.find(self.class_value_no_list[key]['tag'], attrs={'class': key})
+            class_value_no_list_cloned[key]['info'] = information.text.strip()  # Store those as 'info' key
+            del class_value_no_list_cloned[key]['tag']
+            del class_value_no_list_cloned[key]['name']
+        return class_value_no_list_cloned
 
     def _read_job_des_and_req(self):
-        for key in self.class_value_has_list.keys():
+
+        class_value_has_list_cloned = copy.deepcopy(self.class_value_has_list)
+        for key in class_value_has_list_cloned.keys():
             try:
                 informations = self.soup.findAll('div', attrs={'class': key})
                 for information in informations:
                     list_items = information.find('ul')
 
                     for list_item in list_items.findAll('li'):
-                        self.class_value_has_list[key]['descriptions'].append(list_item.text.strip())
+                        class_value_has_list_cloned[key]['descriptions'].append(list_item.text.strip())
             except:
                 pass
-        return self.class_value_has_list
+        return class_value_has_list_cloned
 
     def _read_from_HTML(self, path=None):
         """
