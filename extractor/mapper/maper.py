@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import copy
 
+
 class Mapper(object):
     def __init__(self, page):
         self.class_value_has_list = {
