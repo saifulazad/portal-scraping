@@ -7,9 +7,9 @@ Please note that this is only for training and educational purpose. Do not use t
 ## How does it work:
 Basically, there are two folders. one is `extractor` and another is `scraper`.
 
-#####To understand and install `scraper` please follow this video link
+#####To understand and install `scraper` please follow this video [link](https://www.youtube.com/watch?v=Z7eDjhczcgw)
 
-#####To understand and install `extractor` please follow this video link
+#####To understand and install `extractor` please follow this video [link](https://www.youtube.com/watch?v=1j2Fl63QBFI)
   
   
 ### TODOs
