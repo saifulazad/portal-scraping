@@ -21,8 +21,10 @@ jobs: #Workflow run is made up of one or more jobs
       - name: checkout source code
         uses: actions/checkout@v1
       - name: Build binary
-        run: |
-          cd extractor && zip deployment.zip
+      - name: Install zip
+        uses: montudor/action-zip@v1
+      - name: Zip output
+        run: cd extractor && zip -qq -r deployment.zip extractor
 #      - name: default deploy
 #        uses: appleboy/lambda-action@master
 #        with:
