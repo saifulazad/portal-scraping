@@ -30,13 +30,12 @@ jobs: #Workflow run is made up of one or more jobs
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: ${{ secrets.AWS_REGION }}
-#          function_name: bd-jobs-scrapper
-#          zip_file: deployment.zip
-#          memory_size: 128
-#          timeout: 10
-#          handler: scraper/lambda_handler
-#          role: arn:aws:iam::940443069190:role/lambda_s3_ses
-#          layers: arn:aws:lambda:ap-southeast-1:940443069190:layer:puppeteer-chrome:2
-#          runtime: nodejs12.x
-
+         function_name: bd-jobs-scrapper
+         zip_file: deployment.zip
+         memory_size: 128
+         timeout: 10
+         handler: scraper/lambda_function
+         role: arn:aws:iam::940443069190:role/lambda_s3_ses
+         layers: arn:aws:lambda:ap-southeast-1:940443069190:layer:puppeteer-chrome:2
+         runtime: python3.8	
 
