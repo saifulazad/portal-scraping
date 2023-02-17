@@ -25,21 +25,19 @@ jobs: #Workflow run is made up of one or more jobs
 
       - name: Zip output
         run: zip -qq -r deployment.zip extractor
-#         uses: montudor/action-zip@v1
-#       - name: Zip output
-#         run: cd extractor && zip -qq -r deployment.zip extractor
-#      - name: default deploy
-#        uses: appleboy/lambda-action@master
-#        with:
-#          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#          aws_region: ${{ secrets.AWS_REGION }}
-#          function_name: gorush
-#          zip_file: extractor/deployment.zip
-#          memory_size: 128
-#          timeout: 10
-#          handler: foobar
-#          role: arn:aws:iam::xxxxxxxxxxx:role/test1234
-#          runtime: nodejs12.x
+      - name: default deploy
+        uses: appleboy/lambda-action@master
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: ${{ secrets.AWS_REGION }}
+          function_name: bd-jobs-scrapper
+          zip_file: deployment.zip
+          memory_size: 128
+          timeout: 10
+          handler: index
+          role: arn:aws:iam::940443069190:role/lambda_s3_ses
+          layers: arn:aws:lambda:ap-southeast-1:940443069190:layer:puppeteer-chrome:2
+          runtime: nodejs12.x
 
 
