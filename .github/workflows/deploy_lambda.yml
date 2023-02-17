@@ -6,34 +6,40 @@
 # This workflow will install Deno then run `deno lint` and `deno test`.
 # For more information see: https://github.com/denoland/setup-deno
 
-name: Deno
+name: Deploy #Name of the Workflow
 
-on:
-  push:
-    branches: ["master"]
-  pull_request:
-    branches: ["master"]
+on:  #Name of the GitHub event that triggers the workflow
+  push:   #On Push Event We need to take action
+    branches:  #Now we need to specify the branch name
+    - master
 
-permissions:
-  contents: read
-
-jobs:
-  test:
+jobs:  #Workflow run is made up of one or more jobs
+  deploy_zip:
+    name: deploy lambda function
     runs-on: ubuntu-latest
-
     steps:
-      - name: Setup repo
-        uses: actions/checkout@v3
+      - name: checkout source code
+        uses: actions/checkout@v1
+      - name: npm install
+        env:
+          CI: true
+        run: |
+          npm ci
+      - name: Build binary
+        run: |
+          cd extractor && zip deployment.zip main
+#      - name: default deploy
+#        uses: appleboy/lambda-action@master
+#        with:
+#          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#          aws_region: ${{ secrets.AWS_REGION }}
+#          function_name: gorush
+#          zip_file: extractor/deployment.zip
+#          memory_size: 128
+#          timeout: 10
+#          handler: foobar
+#          role: arn:aws:iam::xxxxxxxxxxx:role/test1234
+#          runtime: nodejs12.x
 
-      - name: Setup Deno
-        # uses: denoland/setup-deno@v1
-        uses: denoland/setup-deno@9db7f66e8e16b5699a514448ce994936c63f0d54
-        with:
-          deno-version: v1.x
 
-      # Uncomment this step to verify the use of 'deno fmt' on each commit.
-      # - name: Verify formatting
-      #   run: deno fmt --check
-
-      - name: Run linter
-        run: deno lint
