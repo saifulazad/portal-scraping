@@ -25,7 +25,7 @@ jobs: #Workflow run is made up of one or more jobs
       uses: montudor/action-zip@v1
 
     - name: Zip output
-      run: zip -qq -r extractor.zip extractor
+      run: cd extractor; zip -r ../extractor.zip * 
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
