@@ -22,7 +22,7 @@ jobs: #Workflow run is made up of one or more jobs
         uses: actions/checkout@v1
       - name: Build binary
         run: |
-          cd extractor && zip deployment.zip main
+          cd extractor && zip deployment.zip
 #      - name: default deploy
 #        uses: appleboy/lambda-action@master
 #        with:
