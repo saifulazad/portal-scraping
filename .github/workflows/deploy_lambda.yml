@@ -15,27 +15,26 @@ on: #Name of the GitHub event that triggers the workflow
 
 jobs: #Workflow run is made up of one or more jobs
   deploy_zip:
-    name: deploy lambda function
+    name: update lambda function
     runs-on: ubuntu-latest
     steps:
-      - name: checkout source code
-        uses: actions/checkout@v1
-      - name: Install zip
-        uses: montudor/action-zip@v1
-      - name: Zip extractor dir
-        run: zip -qq -r deployment.zip extractor
-      - name: default deploy
-        uses: appleboy/lambda-action@master
-        with:
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: ${{ secrets.AWS_REGION }}
-          function_name: bd-jobs-scrapper-dev
-          zip_file: deployment.zip
-          memory_size: 128
-          timeout: 10
-          handler: scraper/lambda_function
-          role: arn:aws:iam::940443069190:role/lambda_s3_ses
-          layers: arn:aws:lambda:ap-southeast-1:940443069190:layer:puppeteer-chrome:2
-          runtime: python3.8	
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Install zip
+      uses: montudor/action-zip@v1
+
+    - name: Zip output
+      run: zip -qq -r extractor.zip extractor
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    # - name: Zip output
+    #   run: aws lambda update-function-code --zip-file=fileb://extractor/extractor.zip --function-name hello-world
+
 
