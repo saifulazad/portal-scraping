@@ -3,3 +3,7 @@ venv/
 __pycache__
 scraper/node_modules/
 scraper/package-lock.json
+infrastructure/.terraform
+infrastructure/terraform.tfstate.backup
+infrastructure/.terraform.lock.hcl
+infrastructure/terraform.tfvars

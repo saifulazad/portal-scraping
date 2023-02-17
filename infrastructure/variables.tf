@@ -1,11 +1,10 @@
-variable "config" {
-  default = "/home/muazzem/.aws/config"
+variable "aws_access_key" {
+  type = string
+
 }
-variable "credentials" {
-  default = "/home/muazzem/.aws/credentials"
-}
-variable "profile" {
-  default = "default"
+variable "aws_secret_key" {
+  type = string
+
 }
 variable "function_name" {
   default = "extractor-lambda-handler"
@@ -28,7 +27,7 @@ variable "lambda_iam_policy_name" {
 }
 
 variable "bucket_name" {
-  default = "extractor-service"
+  default = "extractor-service-dev"
 }
 
 variable "environment" {

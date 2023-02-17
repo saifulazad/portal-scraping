@@ -1,8 +1,15 @@
+terraform {
+  backend "s3" {
+    bucket = "fractalslab-terraform-state"
+    key    = "states/portal-scraping"
+    region = "ap-southeast-1"
+  }
+}
+
 provider "aws" {
-  #  region = "us-east-1"
-  shared_config_files      = [var.config]
-  shared_credentials_files = [var.credentials]
-  profile                  = var.profile
+  region     = "ap-southeast-1"
+  access_key = var.aws_access_key
+  secret_key = var.aws_secret_key
 }
 
 # Creating Lambda IAM resource
@@ -45,6 +52,11 @@ resource "aws_iam_role_policy" "revoke_keys_role_policy" {
 }
 EOF
 }
+data "archive_file" "archive_zip_validate" {
+  type        = "zip"
+  source_dir  = "../extractor"
+  output_path = "extractor.zip"
+}
 
 # Creating Lambda resource
 resource "aws_lambda_function" "test_lambda" {
@@ -53,8 +65,8 @@ resource "aws_lambda_function" "test_lambda" {
   handler          = "${var.handler_name}.lambda_handler"
   runtime          = var.runtime
   timeout          = var.timeout
-  filename         = "../extractor.zip"
-  source_code_hash = filebase64sha256("../extractor.zip")
+  filename         = data.archive_file.archive_zip_validate.output_path
+  source_code_hash = data.archive_file.archive_zip_validate.output_base64sha256
 }
 
 # Creating s3 resource for invoking to lambda function
