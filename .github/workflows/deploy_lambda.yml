@@ -20,8 +20,11 @@ jobs: #Workflow run is made up of one or more jobs
     steps:
       - name: checkout source code
         uses: actions/checkout@v1
-      - name: Build binary
       - name: Install zip
+        uses: montudor/action-zip@v1
+
+      - name: Zip output
+        run: zip -qq -r deployment.zip extractor
 #         uses: montudor/action-zip@v1
 #       - name: Zip output
 #         run: cd extractor && zip -qq -r deployment.zip extractor
