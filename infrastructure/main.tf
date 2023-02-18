@@ -43,7 +43,7 @@ resource "aws_iam_role_policy" "revoke_keys_role_policy" {
     {
       "Action": [
         "s3:*",
-        "ses:*"
+        "logs:*"
       ],
       "Effect": "Allow",
       "Resource": "*"
@@ -65,6 +65,7 @@ resource "aws_lambda_function" "test_lambda" {
   handler          = "${var.handler_name}.lambda_handler"
   runtime          = var.runtime
   timeout          = var.timeout
+  layers = ["arn:aws:lambda:ap-southeast-1:940443069190:layer:bd-jobs-mapper:1"]
   filename         = data.archive_file.archive_zip_validate.output_path
   source_code_hash = data.archive_file.archive_zip_validate.output_base64sha256
 }
@@ -80,7 +81,9 @@ resource "aws_s3_bucket_notification" "aws-lambda-trigger" {
   lambda_function {
     lambda_function_arn = aws_lambda_function.test_lambda.arn
     events              = ["s3:ObjectCreated:*"]
+    filter_prefix       = "joblinksfile/"
   }
+depends_on = [aws_lambda_permission.test]
 }
 resource "aws_lambda_permission" "test" {
   statement_id  = "AllowS3Invoke"

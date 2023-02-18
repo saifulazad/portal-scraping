@@ -1,1 +1,1 @@
-BUCKET_NAME = 'jobstext-v2'
+BUCKET_NAME = 'extractor-service-dev'
