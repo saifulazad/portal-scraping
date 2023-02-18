@@ -1,4 +1,6 @@
 ### Extractor
+![Diagram](extractor/map.jpeg.?raw=true "Title")
+
 #### Lambda Function
 
 [Lambda function](https://aws.amazon.com/lambda/) that is triggered when an object is created in an S3 bucket. 
