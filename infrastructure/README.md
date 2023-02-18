@@ -4,15 +4,14 @@ This Terraform code creates a serverless architecture on AWS, which includes an 
 ##### Terraform Backend
 The backend configuration specifies where Terraform should 
 store the state of the infrastructure. In this case, the backend is configured to use an S3 
-bucket named ``"fractalslab-terraform-state"`` in the ``"ap-southeast-1"`` region with the 
-key ``"states/portal-scraping"``. By using a backend, the infrastructure state is kept 
+bucket named ``fractalslab-terraform-state`` in the ``ap-southeast-1`` region with the 
+key ``states/portal-scraping``. By using a backend, the infrastructure state is kept 
 outside the local workspace, making it easier to collaborate and manage the infrastructure.
 
 #### AWS Provider
 The AWS provider configuration specifies the region where the infrastructure should be deployed and the 
 access and secret keys for the AWS account. The region is set to ``ap-southeast-1`` and the access and 
-secret keys are set using variables ``aws_access_key`` and ``aws_secret_key``.
-
+secret keys are set using variables ``aws_access_key`` and ``aws_secret_key``. 
 Read more about [Provider Configuration](https://developer.hashicorp.com/terraform/language/providers/configuration).
 
 
@@ -41,14 +40,15 @@ The``handler`` attribute specifies the entry point to the Lambda function.
 
 The``runtime`` attribute specifies the language runtime for the Lambda function. The 
 ``timeout`` attribute specifies the maximum time that the Lambda function can run before timing out. The 
-``layers`` attribute specifies a list of ARNs for Lambda layers. 
+``layers`` attribute specifies a list of ARNs for [Lambda layers.](https://medium.com/the-cloud-architect/getting-started-with-aws-lambda-layers-for-python-6e10b1f9a5d) 
 
 The``filename`` attribute specifies the path to the Lambda deployment package. The 
 ``source_code_hash`` attribute is set to the SHA256 hash of the deployment package.
+[Read more about aws_lambda_function.](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function)
 
 #### AWS S3 Bucket
 The ``aws_s3_bucket`` resource creates an S3 bucket. The bucket attribute is set to a variable 
-``bucket_name`` that specifies the name of the S3 bucket.
+``bucket_name`` that specifies the name of the S3 bucket. Read more about [AWS S3 Bucket.](https://aws.amazon.com/s3/)
 
 #### AWS S3 Bucket Notification
 The ``aws_s3_bucket_notification`` resource configures an S3 trigger to invoke the Lambda function 
@@ -60,4 +60,5 @@ triggering the Lambda function. The ``depends_on`` attribute specifies that the
 Lambda function must be created before the S3 trigger can be created.
 
 #### AWS Lambda Permission
-The ``aws_lambda_permission`` resource adds a permission to the Lambda function,
+The ``aws_lambda_permission`` resource adds a permission to the Lambda function.
+[Lambda execution role to access Amazon S3 bucket.](https://repost.aws/knowledge-center/lambda-execution-role-s3-bucket)
