@@ -62,3 +62,27 @@ Lambda function must be created before the S3 trigger can be created.
 #### AWS Lambda Permission
 The ``aws_lambda_permission`` resource adds a permission to the Lambda function.
 [Lambda execution role to access Amazon S3 bucket.](https://repost.aws/knowledge-center/lambda-execution-role-s3-bucket)
+
+### Let's create the infrastructure 🚀
+
+#### Step 1
+Clone the GitHub repository for the project [here.](https://github.com/saifulazad/portal-scraping)
+
+#### Step 2
+Navigate to the `infrastructure` folder and run terraform init or follow the command below:
+
+
+After successful initialization, you'll see the message 
+**"Terraform has been successfully initialized!"**
+
+#### Step 3
+Create a lambda function layer and replace `aws_lambda_function` layer with your AWS Function layer arn.
+
+#### Step 4
+Navigate to `terraform.tfvars` and fill in the custom values on how you want your infrastructure to be deployed.
+
+#### Step 5
+Configure AWS cred for GitHub action
+
+#### Step 6
+Deploy your code on your GitHub account.
