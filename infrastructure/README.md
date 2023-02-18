@@ -1,5 +1,33 @@
+### Let's create the infrastructure 🚀
+This Terraform code creates a serverless architecture on AWS, which includes an S3 bucket, an 
+AWS Lambda function, an IAM role for the Lambda function, and an S3 trigger to invoke the Lambda 
+function. This documentation will provide an overview of the code, explain each resource, and show 
+how to deploy the infrastructure on AWS.
+
+#### Step 1
+Clone the GitHub repository for the project [here.](https://github.com/saifulazad/portal-scraping)
+
+#### Step 2
+Navigate to the `infrastructure` folder and run terraform init or follow the command below:
+
+
+After successful initialization, you'll see the message 
+**"Terraform has been successfully initialized!"**
+
+#### Step 3
+Create a lambda function layer and replace `aws_lambda_function` layer with your AWS Function layer arn.
+
+#### Step 4
+Navigate to `terraform.tfvars` and fill in the custom values on how you want your infrastructure to be deployed.
+
+#### Step 5
+Configure AWS cred for GitHub action
+
+#### Step 6
+Deploy your code on your GitHub account.
+
+
 ### AWS Infrastructure Deployment Using Terraform
-This Terraform code creates a serverless architecture on AWS, which includes an S3 bucket, an AWS Lambda function, an IAM role for the Lambda function, and an S3 trigger to invoke the Lambda function. This documentation will provide an overview of the code, explain each resource, and show how to deploy the infrastructure on AWS.
 
 ##### Terraform Backend
 The backend configuration specifies where Terraform should 
@@ -63,26 +91,3 @@ Lambda function must be created before the S3 trigger can be created.
 The ``aws_lambda_permission`` resource adds a permission to the Lambda function.
 [Lambda execution role to access Amazon S3 bucket.](https://repost.aws/knowledge-center/lambda-execution-role-s3-bucket)
 
-### Let's create the infrastructure 🚀
-
-#### Step 1
-Clone the GitHub repository for the project [here.](https://github.com/saifulazad/portal-scraping)
-
-#### Step 2
-Navigate to the `infrastructure` folder and run terraform init or follow the command below:
-
-
-After successful initialization, you'll see the message 
-**"Terraform has been successfully initialized!"**
-
-#### Step 3
-Create a lambda function layer and replace `aws_lambda_function` layer with your AWS Function layer arn.
-
-#### Step 4
-Navigate to `terraform.tfvars` and fill in the custom values on how you want your infrastructure to be deployed.
-
-#### Step 5
-Configure AWS cred for GitHub action
-
-#### Step 6
-Deploy your code on your GitHub account.
