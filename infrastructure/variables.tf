@@ -10,13 +10,13 @@ variable "function_name" {
   default = "extractor-lambda-handler"
 }
 variable "handler_name" {
-  default = "lambda_handler"
+  default = "lambda_function"
 }
 variable "runtime" {
   default = "python3.8"
 }
 variable "timeout" {
-  default = "10"
+  default = "300"
 }
 variable "lambda_role_name" {
   default = "extractor-lambda-handler-role"

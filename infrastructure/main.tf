@@ -65,7 +65,7 @@ resource "aws_lambda_function" "test_lambda" {
   handler          = "${var.handler_name}.lambda_handler"
   runtime          = var.runtime
   timeout          = var.timeout
-  layers = ["arn:aws:lambda:ap-southeast-1:940443069190:layer:bd-jobs-mapper:1"]
+  layers = ["arn:aws:lambda:ap-southeast-1:940443069190:layer:bd-jobs-mapper:4"]
   filename         = data.archive_file.archive_zip_validate.output_path
   source_code_hash = data.archive_file.archive_zip_validate.output_base64sha256
 }
