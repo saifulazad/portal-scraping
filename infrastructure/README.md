@@ -1,18 +1,47 @@
+### Let's create the infrastructure 🚀
+This Terraform code creates a serverless architecture on AWS, which includes an S3 bucket, an 
+AWS Lambda function, an IAM role for the Lambda function, and an S3 trigger to invoke the Lambda 
+function. This documentation will provide an overview of the code, explain each resource, and show 
+how to deploy the infrastructure on AWS.
+
+#### Step 1
+Frock and Clone the GitHub repository for the project [here.](https://github.com/saifulazad/portal-scraping)
+
+#### Step 2
+Create a lambda function layer and replace `aws_lambda_function` layer 
+with your AWS Function layer arn. [arn:aws:lambda******] [Doc for Lambda layers.](https://medium.com/the-cloud-architect/getting-started-with-aws-lambda-layers-for-python-6e10b1f9a5d) 
+
+#### Step 3
+Navigate to `terraform.tfvars` and fill in the custom values on how you want your 
+infrastructure to be deployed.
+
+#### Step 4
+Configure [secrets in GitHub actions](https://octopus.com/blog/githubactions-secrets)
+ 
+    1. Click on the GitHub repo "Settings" tab.
+    2. Click on "Secrets" in the left-hand menu.
+    3. Click on "New secret".
+    4. Enter a name for the secret. This should be a descriptive name that indicates what the secret is used for. For example, if the secret is an access key for a cloud service, you could name it "CLOUD_ACCESS_KEY".
+    5. Enter the value for the secret. This should be the sensitive information that you want to protect. For example, if the secret is an access key for a cloud service, you would enter the actual access key.
+Click "Add secret" to save the new secret.
+
+#### Step 5
+Deploy your code on your GitHub account.
+
+
 ### AWS Infrastructure Deployment Using Terraform
-This Terraform code creates a serverless architecture on AWS, which includes an S3 bucket, an AWS Lambda function, an IAM role for the Lambda function, and an S3 trigger to invoke the Lambda function. This documentation will provide an overview of the code, explain each resource, and show how to deploy the infrastructure on AWS.
 
 ##### Terraform Backend
 The backend configuration specifies where Terraform should 
 store the state of the infrastructure. In this case, the backend is configured to use an S3 
-bucket named ``"fractalslab-terraform-state"`` in the ``"ap-southeast-1"`` region with the 
-key ``"states/portal-scraping"``. By using a backend, the infrastructure state is kept 
+bucket named ``fractalslab-terraform-state`` in the ``ap-southeast-1`` region with the 
+key ``states/portal-scraping``. By using a backend, the infrastructure state is kept 
 outside the local workspace, making it easier to collaborate and manage the infrastructure.
 
 #### AWS Provider
 The AWS provider configuration specifies the region where the infrastructure should be deployed and the 
 access and secret keys for the AWS account. The region is set to ``ap-southeast-1`` and the access and 
-secret keys are set using variables ``aws_access_key`` and ``aws_secret_key``.
-
+secret keys are set using variables ``aws_access_key`` and ``aws_secret_key``. 
 Read more about [Provider Configuration](https://developer.hashicorp.com/terraform/language/providers/configuration).
 
 
@@ -41,14 +70,15 @@ The``handler`` attribute specifies the entry point to the Lambda function.
 
 The``runtime`` attribute specifies the language runtime for the Lambda function. The 
 ``timeout`` attribute specifies the maximum time that the Lambda function can run before timing out. The 
-``layers`` attribute specifies a list of ARNs for Lambda layers. 
+``layers`` attribute specifies a list of ARNs for [Lambda layers.](https://medium.com/the-cloud-architect/getting-started-with-aws-lambda-layers-for-python-6e10b1f9a5d) 
 
 The``filename`` attribute specifies the path to the Lambda deployment package. The 
 ``source_code_hash`` attribute is set to the SHA256 hash of the deployment package.
+[Read more about aws_lambda_function.](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function)
 
 #### AWS S3 Bucket
 The ``aws_s3_bucket`` resource creates an S3 bucket. The bucket attribute is set to a variable 
-``bucket_name`` that specifies the name of the S3 bucket.
+``bucket_name`` that specifies the name of the S3 bucket. Read more about [AWS S3 Bucket.](https://aws.amazon.com/s3/)
 
 #### AWS S3 Bucket Notification
 The ``aws_s3_bucket_notification`` resource configures an S3 trigger to invoke the Lambda function 
@@ -60,4 +90,6 @@ triggering the Lambda function. The ``depends_on`` attribute specifies that the
 Lambda function must be created before the S3 trigger can be created.
 
 #### AWS Lambda Permission
-The ``aws_lambda_permission`` resource adds a permission to the Lambda function,
+The ``aws_lambda_permission`` resource adds a permission to the Lambda function.
+[Lambda execution role to access Amazon S3 bucket.](https://repost.aws/knowledge-center/lambda-execution-role-s3-bucket)
+
