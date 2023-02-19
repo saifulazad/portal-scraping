@@ -5,25 +5,27 @@ function. This documentation will provide an overview of the code, explain each 
 how to deploy the infrastructure on AWS.
 
 #### Step 1
-Clone the GitHub repository for the project [here.](https://github.com/saifulazad/portal-scraping)
+Frock and Clone the GitHub repository for the project [here.](https://github.com/saifulazad/portal-scraping)
 
 #### Step 2
-Navigate to the `infrastructure` folder and run terraform init or follow the command below:
-
-
-After successful initialization, you'll see the message 
-**"Terraform has been successfully initialized!"**
+Create a lambda function layer and replace `aws_lambda_function` layer 
+with your AWS Function layer arn. [arn:aws:lambda******] [Doc for Lambda layers.](https://medium.com/the-cloud-architect/getting-started-with-aws-lambda-layers-for-python-6e10b1f9a5d) 
 
 #### Step 3
-Create a lambda function layer and replace `aws_lambda_function` layer with your AWS Function layer arn.
+Navigate to `terraform.tfvars` and fill in the custom values on how you want your 
+infrastructure to be deployed.
 
 #### Step 4
-Navigate to `terraform.tfvars` and fill in the custom values on how you want your infrastructure to be deployed.
+Configure [secrets in GitHub actions](https://octopus.com/blog/githubactions-secrets)
+ 
+    1. Click on the GitHub repo "Settings" tab.
+    2. Click on "Secrets" in the left-hand menu.
+    3. Click on "New secret".
+    4. Enter a name for the secret. This should be a descriptive name that indicates what the secret is used for. For example, if the secret is an access key for a cloud service, you could name it "CLOUD_ACCESS_KEY".
+    5. Enter the value for the secret. This should be the sensitive information that you want to protect. For example, if the secret is an access key for a cloud service, you would enter the actual access key.
+Click "Add secret" to save the new secret.
 
 #### Step 5
-Configure AWS cred for GitHub action
-
-#### Step 6
 Deploy your code on your GitHub account.
 
 

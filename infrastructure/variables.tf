@@ -12,6 +12,9 @@ variable "function_name" {
 variable "handler_name" {
   default = "lambda_function"
 }
+variable "lambda_layers" {
+  default = "arn:aws:lambda:ap-southeast-1:940443069190:layer:bd-jobs-mapper:4"
+}
 variable "runtime" {
   default = "python3.8"
 }
