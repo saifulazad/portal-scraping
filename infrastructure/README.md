@@ -16,7 +16,24 @@ Navigate to `terraform.tfvars` and fill in the custom values on how you want you
 infrastructure to be deployed.
 
 #### Step 4
-Configure [secrets in GitHub actions](https://octopus.com/blog/githubactions-secrets)
+
+A user API token has the same permission level as your user account.
+Generate user API tokens on your [user settings page](https://app.terraform.io/app/settings/tokens).
+
+
+    1. Log in to your Terraform Cloud account at https://app.terraform.io/.
+    2. Navigate to the organization or workspace that you want to create an API token for.
+    3. Click on "User Settings" in the upper right-hand corner.
+    4. Select the "Tokens" tab.
+    5. Click the "Create an API token" button.
+    6. Enter a description for the token and click "Create Token".
+    7. Your new token will be displayed. Copy the token and store it in a secure location, as it will not be displayed again.
+
+### Configure [secrets in GitHub actions](https://octopus.com/blog/githubactions-secrets)
+To build this infrastructure you will need `TF_API_TOKEN`, 
+`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`.
+
+#### Step 5
  
     1. Click on the GitHub repo "Settings" tab.
     2. Click on "Secrets" in the left-hand menu.
@@ -25,7 +42,7 @@ Configure [secrets in GitHub actions](https://octopus.com/blog/githubactions-sec
     5. Enter the value for the secret. This should be the sensitive information that you want to protect. For example, if the secret is an access key for a cloud service, you would enter the actual access key.
 Click "Add secret" to save the new secret.
 
-#### Step 5
+#### Step 6
 Deploy your code on your GitHub account.
 
 
