@@ -6,11 +6,6 @@ terraform {
   }
 }
 
-provider "aws" {
-  region     = "ap-southeast-1"
-  access_key = var.aws_access_key
-  secret_key = var.aws_secret_key
-}
 
 resource "aws_iam_role_policy" "revoke_keys_role_policy" {
   name = var.lambda_iam_policy_name
