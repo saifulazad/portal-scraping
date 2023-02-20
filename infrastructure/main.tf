@@ -12,26 +12,6 @@ provider "aws" {
   secret_key = var.aws_secret_key
 }
 
-# Creating Lambda IAM resource
-resource "aws_iam_role" "lambda_iam" {
-  name = var.lambda_role_name
-
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "lambda.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-EOF
-}
-
 resource "aws_iam_role_policy" "revoke_keys_role_policy" {
   name = var.lambda_iam_policy_name
   role = aws_iam_role.lambda_iam.id
@@ -83,12 +63,5 @@ resource "aws_s3_bucket_notification" "aws-lambda-trigger" {
     events              = ["s3:ObjectCreated:*"]
     filter_prefix       = "joblinksfile/"
   }
-depends_on = [aws_lambda_permission.test]
-}
-resource "aws_lambda_permission" "test" {
-  statement_id  = "AllowS3Invoke"
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.test_lambda.function_name
-  principal     = "s3.amazonaws.com"
-  source_arn    = "arn:aws:s3:::${aws_s3_bucket.bucket.id}"
+depends_on = [aws_lambda_permission.lambda_permission]
 }
