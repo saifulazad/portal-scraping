@@ -12,8 +12,13 @@ Create a lambda function layer and replace `aws_lambda_function` layer
 with your AWS Function layer arn. [arn:aws:lambda******] [Doc for Lambda layers.](https://medium.com/the-cloud-architect/getting-started-with-aws-lambda-layers-for-python-6e10b1f9a5d) 
 
 #### Step 3
-Navigate to `terraform.tfvars` and fill in the custom values on how you want your 
-infrastructure to be deployed.
+Create a `terraform.tfvars` in infrastructure directory and add your `aws_access_key`, `aws_secret_key`.
+
+``terraform.tfvars``  file will look like this:
+```
+    aws_access_key = "*******5NU"         
+    aws_secret_key = "*******9Rwz32c"
+```
 
 #### Step 4
 
@@ -24,12 +29,20 @@ resources.
 
 
 #### Step 5
-After all the resource has been fully created, upload a file to the S3 bucket 
-created, you'll see the lambda function has been triggered.
+If everything is OK, Then deploy your project by following the command below
+
+```
+  $ terraform init                   # Initialize project
+  $ terraform plan                   # setup internal state
+  $ terraform apply -auto-approve    # Deploy the infrastructure
+  $ terraform destroy                # Only if you want to destroy the infra and cleanup
+```
+
+
 
 #### Step 6
-If you're done, and you choose to destroy the necessary resources, run `terraform destroy` 
-This will destroy all the necessary resources created.
+After all the resource has been fully created, upload a file to the S3 bucket 
+created, you'll see the lambda function has been triggered.
 
 
 ### AWS Infrastructure Deployment Using Terraform
