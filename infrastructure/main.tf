@@ -77,7 +77,7 @@ resource "aws_lambda_function" "scraper_js_function" {
   runtime          = "nodejs12.x"
   timeout          = var.timeout
   memory_size      = 1024
-  architectures    = ["arm64"]
+  architectures    = ["x86_64"]
   layers           = ["arn:aws:lambda:ap-southeast-1:940443069190:layer:puppeteer-chrome:2"]
   filename         = data.archive_file.archive_scraper.output_path
   source_code_hash = data.archive_file.archive_scraper.output_base64sha256

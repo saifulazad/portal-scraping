@@ -25,7 +25,7 @@ if __name__ == '__main__':
         'Records': [
             {
                 's3': {
-                    'object': {'key': 'joblinksfile/2023-02-15'}
+                    'object': {'key': 'joblinksfile/2023-02-23'}
                 }
             }
         ]
