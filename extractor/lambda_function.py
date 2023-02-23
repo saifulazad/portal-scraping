@@ -16,6 +16,7 @@ def lambda_handler(event, context):
     jobs_details = get_all_job_details(absolute_job_urls)
     key = datetime.datetime.now().strftime('%d-%m-%y')
     file_name = f'{key}.json'
+    print(file_name)
     upload_jobs_details(key=file_name, content=jobs_details)
 
 

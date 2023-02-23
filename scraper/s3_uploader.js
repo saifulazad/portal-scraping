@@ -5,7 +5,7 @@ exports.upload = async (content)=>{
     const month = dateString[1];
     const day = dateString[2].split('T')[0];
     let params = {
-        Bucket: "jobstext-v2/joblinksfile",
+        Bucket: "extractor-service-dev/joblinksfile",
         Key: (`${year}-${month}-${day}`),
         Body: content.join("\r\n")
     };

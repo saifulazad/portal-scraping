@@ -33,6 +33,7 @@ def get_all_job_details(job_links):
             }
             data = {**body, **keys}
             logger.info(body)
+            print(data)
             jobs_details.append(data)
     return jobs_details
 
