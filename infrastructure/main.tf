@@ -34,11 +34,11 @@ data "archive_file" "archive_zip_validate" {
 }
 
 # Creating Lambda resource
-resource "aws_lambda_function" "test_lambda" {
+resource "aws_lambda_function" "extractor_lambda_handler" {
   function_name    = var.function_name
   role             = aws_iam_role.lambda_iam.arn
   handler          = "${var.handler_name}.lambda_handler"
-  description      = "https://github.com/saifulazad/portal-scraping/tree/master/infrastructure"
+  description      = "https://github.com/saifulazad/portal-scraping, this function trigger by S3 ${var.bucket_name} bucket"
   runtime          = var.runtime
   timeout          = var.timeout
   architectures    = ["arm64"]
@@ -53,10 +53,10 @@ resource "aws_s3_bucket" "bucket" {
 }
 
 # Adding S3 bucket as trigger to my lambda and giving the permissions
-resource "aws_s3_bucket_notification" "aws-lambda-trigger" {
+resource "aws_s3_bucket_notification" "aws_lambda_trigger" {
   bucket = aws_s3_bucket.bucket.id
   lambda_function {
-    lambda_function_arn = aws_lambda_function.test_lambda.arn
+    lambda_function_arn = aws_lambda_function.extractor_lambda_handler.arn
     events              = ["s3:ObjectCreated:*"]
     filter_prefix       = "joblinksfile/"
   }
@@ -69,10 +69,10 @@ data "archive_file" "archive_scraper" {
 }
 
 # Creating Lambda resource
-resource "aws_lambda_function" "scraper_js_function" {
-  function_name    = "scraper_js_function"
+resource "aws_lambda_function" "scraper_lambda_handler" {
+  function_name    = "scraper_lambda_handler"
   role             = aws_iam_role.lambda_iam.arn
-  description      = "https://github.com/saifulazad/portal-scraping/tree/master/scraper"
+  description      = "https://github.com/saifulazad/portal-scraping"
   handler          = "index.handler"
   runtime          = "nodejs12.x"
   timeout          = var.timeout
@@ -87,21 +87,21 @@ resource "aws_lambda_function" "scraper_js_function" {
 
 // Allow CloudWatch to invoke our function
 resource "aws_lambda_permission" "allow_cloudwatch_to_invoke" {
-  function_name = aws_lambda_function.scraper_js_function.function_name
+  function_name = aws_lambda_function.scraper_lambda_handler.function_name
   statement_id  = "CloudWatchInvoke"
   action        = "lambda:InvokeFunction"
-
-  source_arn = aws_cloudwatch_event_rule.every_day.arn
+  source_arn = aws_cloudwatch_event_rule.scraper_lambda_event.arn
   principal  = "events.amazonaws.com"
 }
 
 // Create the "cron" schedule
-resource "aws_cloudwatch_event_rule" "every_day" {
-  name                = "Scraping"
+resource "aws_cloudwatch_event_rule" "scraper_lambda_event" {
+  name                = "bd-jobs-cron"
+  description = "trigger lambda function"
   schedule_expression = var.schedule
 }
 
-resource "aws_cloudwatch_event_target" "invoke_lambda" {
-  rule = aws_cloudwatch_event_rule.every_day.name
-  arn  = aws_lambda_function.scraper_js_function.arn
+resource "aws_cloudwatch_event_target" "invoke_scraper_lambda_handler" {
+  rule = aws_cloudwatch_event_rule.scraper_lambda_event.name
+  arn  = aws_lambda_function.scraper_lambda_handler.arn
 }
