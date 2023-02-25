@@ -2,7 +2,7 @@
 # Portal Scraping 
 
 
-[![Watch the video]](https://youtu.be/jtVVs7RWkkM)
+[![Watch the video](https://github.com/saifulazad/portal-scraping/blob/mamun_wip/infrastructure/app.jpeg)](https://youtu.be/jtVVs7RWkkM)
 
 
 ### Let's create the infrastructure 🚀
