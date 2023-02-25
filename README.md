@@ -2,7 +2,7 @@
 # Portal Scraping 
 
 
-[![Watch the video](https://i.imgur.com/vKb2F1B.png)](https://youtu.be/jtVVs7RWkkM)
+[![Watch the video](https://github.com/saifulazad/portal-scraping/blob/mamun_wip/infrastructure/app.jpeg)](https://youtu.be/jtVVs7RWkkM)
 
 
 ### Let's create the infrastructure 🚀
@@ -67,6 +67,6 @@ Please note that `scraper` folder will collect links by puppeteer and then those
 details information from each link.
 
 ### Contact
-> Facebook https://www.facebook.com/mr.saiful.azad
 
-> Gmail mr.saiful.azad@gmail.com
+[![Gmail Badge](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:mr.saiful.azad@gmail.com,muazzem.mamun@gmail.com)
+[![LinkedIn Badge](https://img.shields.io/badge/LinkedIn-Profile-informational?style=flat&logo=linkedin&logoColor=white&color=0D76A8)](https://www.linkedin.com/in/saifulazad/)
