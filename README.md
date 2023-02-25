@@ -1,6 +1,10 @@
 
 # Portal Scraping 
 
+
+[![Watch the video](https://i.imgur.com/vKb2F1B.png)](https://youtu.be/jtVVs7RWkkM)
+
+
 ### Let's create the infrastructure 🚀
 This Terraform code creates a serverless architecture on AWS, which includes an S3 bucket, an 
 AWS Lambda function, an IAM role for the Lambda function, and an S3 trigger to invoke the Lambda 
