@@ -11,6 +11,10 @@ AWS Lambda function, an IAM role for the Lambda function, and an S3 trigger to i
 function. This documentation will provide an overview of the code, explain each resource, and show 
 how to deploy the infrastructure on AWS.
 
+
+
+[![diagram](https://github.com/saifulazad/portal-scraping/blob/mamun_wip/infrastructure/diagram.jpeg)]
+
 #### Step: 1
 Frock and Clone the GitHub repository for the project [here.](https://github.com/saifulazad/portal-scraping)
 

@@ -70,7 +70,7 @@ data "archive_file" "archive_scraper" {
 
 # Creating Lambda resource
 resource "aws_lambda_function" "scraper_lambda_handler" {
-  function_name    = "scraper_lambda_handler"
+  function_name    = "scraper-lambda-handler"
   role             = aws_iam_role.lambda_iam.arn
   description      = "https://github.com/saifulazad/portal-scraping"
   handler          = "index.handler"
