@@ -11,6 +11,6 @@ exports.handler = async (event) => {
     ignoreHTTPSErrors: true
   })
   JobLinks = await extractor.scraper(browser)
+  await s3uploader.upload(JobLinks)
   await browser.close()
-  s3uploader.upload(JobLinks)
 }
