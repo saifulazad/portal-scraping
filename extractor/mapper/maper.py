@@ -17,6 +17,10 @@ class Mapper(object):
                 'name': 'Other Benefits',
                 'descriptions': []
             },
+            'adi_info': {
+                'name': 'Additional Information',
+                'information': []
+            },
         }
         self.class_value_no_list = {
             'job-title': {
@@ -37,6 +41,19 @@ class Mapper(object):
 
         self.soup = BeautifulSoup(page, "html.parser")  # Consume HTML page from requests library
 
+    def _read_additional_info(self):
+        panel_body = self.soup.find("div", {"class": "panel-body"})
+        h4_tags = panel_body.find_all('strong')
+        data = []
+
+        for h4 in h4_tags:
+            tag = panel_body.find('strong', text=h4.text.strip())
+            text = tag.next_sibling.strip()
+            keys = h4.text.strip()
+            data.append({keys[:len(keys) - 1]: text})
+
+        return data
+
     def _read_basic_info(self):
         class_value_no_list_cloned = copy.deepcopy(self.class_value_no_list)
         for key in class_value_no_list_cloned:
@@ -49,6 +66,7 @@ class Mapper(object):
     def _read_job_des_and_req(self):
 
         class_value_has_list_cloned = copy.deepcopy(self.class_value_has_list)
+        class_value_has_list_cloned['adi_info']['information'].append(self._read_additional_info())
         for key in class_value_has_list_cloned.keys():
             try:
                 informations = self.soup.findAll('div', attrs={'class': key})
