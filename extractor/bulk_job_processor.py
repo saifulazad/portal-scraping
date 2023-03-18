@@ -3,9 +3,10 @@ import requests
 from mapper.maper import Mapper
 import logging
 
+
 logger = logging.getLogger(__name__)
 
-BASE_URL = 'https://jobs.bdjobs.com/'
+BASE_URL = "https://jobs.bdjobs.com/"
 
 
 def fetch_page(url):
@@ -24,13 +25,10 @@ def get_all_job_details(job_links):
 
         except Exception as ex:
 
-            body = {'error': str(ex)}
+            body = {"error": str(ex)}
 
         finally:
-            keys = {
-                'url': url,
-                'created_at': int(time.time())
-            }
+            keys = {"url": url, "created_at": int(time.time())}
             data = {**body, **keys}
             logger.info(body)
             print(data)
@@ -48,7 +46,7 @@ def read_jobs_links(filename):
     :param filename:
     :return:
     """
-    file = open(filename, 'r')
+    file = open(filename, "r")
 
     raw_list = [str(line.strip()) for line in file.readlines()]
     return [create_absolute_url(line) for line in raw_list]

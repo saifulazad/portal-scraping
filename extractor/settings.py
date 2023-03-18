@@ -1,1 +1,1 @@
-BUCKET_NAME = 'extractor-service-dev'
+BUCKET_NAME = "extractor-service-dev"
