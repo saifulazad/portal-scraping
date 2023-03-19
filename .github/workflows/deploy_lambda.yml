@@ -21,7 +21,7 @@ jobs: #Workflow run is made up of one or more jobs
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
     - uses: actions/checkout@v3
-    - uses: pre-commit/action@v2.0.3
+
     - name: Set up Python 3.10
     - uses: actions/setup-python@v3
       with:
