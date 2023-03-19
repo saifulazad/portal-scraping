@@ -2,7 +2,7 @@ import os
 import boto3
 import json
 
-from settings import BUCKET_NAME
+from extractor.settings import BUCKET_NAME
 
 
 def upload_jobs_details(key, content):
