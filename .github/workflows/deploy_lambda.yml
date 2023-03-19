@@ -22,11 +22,6 @@ jobs: #Workflow run is made up of one or more jobs
     - name: Checkout
     - uses: actions/checkout@v3
 
-    - name: Set up Python 3.10
-    - uses: actions/setup-python@v3
-      with:
-        python-version: "3.10"
-
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
