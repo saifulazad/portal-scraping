@@ -19,7 +19,7 @@ def lambda_handler(event, context):
     key = datetime.datetime.now().strftime("%d-%m-%y")
     file_name = f"{key}.json"
     print(file_name)
-    upload_jobs_details(key=file_name, content=jobs_details)
+    upload_jobs_details(key=file_name, content=jobs_details, bucket_name=BUCKET_NAME)
 
 
 if __name__ == "__main__":

@@ -25,7 +25,7 @@ def test_upload_jobs_details(mock_s3_resource):
     mock_s3.Object.return_value.put.return_value = s3_response
 
     # Act
-    upload_jobs_details(key, content)
+    upload_jobs_details(key, content, BUCKET_NAME)
 
     # Assert
     mock_s3_resource.assert_called_once_with("s3")
@@ -44,7 +44,7 @@ def test_upload_jobs_details_error(mock_s3_resource):
     # Assert
     with pytest.raises(IOError):
         # Act
-        upload_jobs_details(key, content)
+        upload_jobs_details(key, content, BUCKET_NAME)
 
     mock_s3_resource.assert_called_once_with("s3")
     mock_s3.Object.assert_called_once_with(BUCKET_NAME, f"jobs-details/{key}")

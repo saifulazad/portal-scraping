@@ -2,12 +2,11 @@ import os
 import boto3
 import json
 
-from settings import BUCKET_NAME
 
-
-def upload_jobs_details(key, content):
+def upload_jobs_details(key, content, bucket_name):
     """
 
+    :param bucket_name:
     :param key:
     :param content:
     :return:
@@ -17,7 +16,7 @@ def upload_jobs_details(key, content):
 
     try:
         data = json.dumps(content).encode("utf-8")
-        s3_response = s3.Object(BUCKET_NAME, key).put(Body=data)
+        s3_response = s3.Object(bucket_name, key).put(Body=data)
         print(s3_response)
     except Exception as e:
         raise IOError(e)
