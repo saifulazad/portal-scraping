@@ -23,13 +23,13 @@ class Mapper(object):
     def _read_additional_info(self):
         panel_body = self.soup.find("div", {"class": "panel-body"})
         h4_tags = panel_body.find_all("strong")
-        data = []
+        data = {}
 
         for h4 in h4_tags:
             tag = panel_body.find("strong", text=h4.text.strip())
             text = tag.next_sibling.strip()
             keys = h4.text.strip()
-            data.append({keys[: len(keys) - 1]: text})
+            data[keys[: len(keys) - 1]] = text
 
         return data
 
