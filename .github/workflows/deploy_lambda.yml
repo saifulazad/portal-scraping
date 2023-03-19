@@ -21,6 +21,12 @@ jobs: #Workflow run is made up of one or more jobs
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v3
+
+    - name: Lint with flake8
+      run: pre-commit run --all-files
+    - name: Test with pytest
+      run: |
+        pytest
     
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
