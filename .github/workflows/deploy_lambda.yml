@@ -32,6 +32,10 @@ jobs: #Workflow run is made up of one or more jobs
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+    - name: Test with pytest
+      run: |
+        pytest
+
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:
