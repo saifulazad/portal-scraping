@@ -1,5 +1,5 @@
 beautifulsoup4==4.5.1
-boto3==1.17.27
+boto3
 requests==2.21.0
 smart-open==4.2.0 #https://github.com/RaRe-Technologies/smart_open/stargazers
 pre-commit==3.2.0
