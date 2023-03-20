@@ -7,10 +7,10 @@ from settings import BUCKET_NAME
 
 def lambda_handler(event, context):
     file_obj = event["Records"][0]
-    filename = str(file_obj['s3']['object']['key'])
-    s3 = boto3.client('s3')
+    filename = str(file_obj["s3"]["object"]["key"])
+    s3 = boto3.client("s3")
     data = s3.get_object(Bucket=BUCKET_NAME, Key=filename)
-    contents = data['Body'].read()
+    contents = data["Body"].read()
     job_links = contents.decode("utf-8").splitlines()
     absolute_job_urls = [create_absolute_url(line) for line in job_links]
     # print(absolute_job_urls)
