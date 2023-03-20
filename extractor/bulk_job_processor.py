@@ -31,7 +31,7 @@ def get_all_job_details(job_links):
             keys = {"url": url, "created_at": int(time.time())}
             data = {**body, **keys}
             logger.info(body)
-            print(data)
+            # print(data)
             jobs_details.append(data)
     return jobs_details
 
