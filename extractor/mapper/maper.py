@@ -8,7 +8,7 @@ class Mapper(object):
             "job_des": {"name": "Job Description / Responsibility", "descriptions": []},
             "job_req": {"name": "Job Requirements", "descriptions": []},
             "oth_ben": {"name": "Other Benefits", "descriptions": []},
-            "adi_info": {"name": "Additional Information", "information": []},
+            "adi_info": {"name": "Additional Information", "information": {}},
         }
         self.class_value_no_list = {
             "job-title": {"name": "Job Title", "tag": "h2"},
@@ -49,7 +49,7 @@ class Mapper(object):
     def _read_job_des_and_req(self):
 
         class_value_has_list_cloned = copy.deepcopy(self.class_value_has_list)
-        class_value_has_list_cloned["adi_info"]["information"].append(
+        class_value_has_list_cloned["adi_info"]["information"].update(
             self._read_additional_info()
         )
         for key in class_value_has_list_cloned.keys():
