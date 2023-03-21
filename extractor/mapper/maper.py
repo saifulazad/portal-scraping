@@ -8,7 +8,7 @@ class Mapper(object):
             "job_des": {"name": "Job Description / Responsibility", "descriptions": []},
             "job_req": {"name": "Job Requirements", "descriptions": []},
             "oth_ben": {"name": "Other Benefits", "descriptions": []},
-            "adi_info": {"name": "Additional Information", "information": {}},
+            "addi_info": {"name": "Additional Information", "information": {}},
         }
         self.class_value_no_list = {
             "job-title": {"name": "Job Title", "tag": "h2"},
