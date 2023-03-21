@@ -49,7 +49,7 @@ class Mapper(object):
     def _read_job_des_and_req(self):
 
         class_value_has_list_cloned = copy.deepcopy(self.class_value_has_list)
-        class_value_has_list_cloned["adi_info"]["information"].update(
+        class_value_has_list_cloned["addi_info"]["information"].update(
             self._read_additional_info()
         )
         for key in class_value_has_list_cloned.keys():
