@@ -12,7 +12,7 @@ exports.scraper = async (browser) => {
     )
   )
   let joblinks = hrefs1.filter(name => name.includes('jobdetails.asp?id='))
-  for (let i = 2; i < 3; i++) {
+  for (let i = 2; i <= 3; i++) {
     const path = `//*[@id="bottomPagging"]/ul/li[${i}]/a`
     await page.waitFor(15000)
     const linkHandlers = await page.$x(path)

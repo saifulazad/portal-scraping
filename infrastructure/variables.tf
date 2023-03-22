@@ -40,5 +40,5 @@ variable "zip_file" {
   default = "/extractor.zip"
 }
 variable "schedule" {
-  default = "cron(0 0 */7 * ? *)"
+  default = "cron(0 0 * * ? *)"
 }
