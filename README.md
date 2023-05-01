@@ -11,6 +11,7 @@ Please note that this is only for training and educational purpose. Do not use t
 
 ### Video references 
 [Provision Scraping Infrastructure by Terraform on AWS](https://www.youtube.com/watch?v=Sy3F6KeZE-8)
+
 [Scraper on AWS Lambda by Python Beautiful Soup](https://www.youtube.com/watch?v=BGD0vkHZY70)
 
 
