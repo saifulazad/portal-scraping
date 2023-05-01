@@ -1,20 +1,13 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
 
-# This workflow will install Deno then run `deno lint` and `deno test`.
-# For more information see: https://github.com/denoland/setup-deno
+name: Deploy AWS infra on AWS 
 
-name: Deploy #Name of the Workflow
-
-on: #Name of the GitHub event that triggers the workflow
+on: 
   push: #On Push Event We need to take action
-    branches: #Now we need to specify the branch name
+    branches: 
       - master
 
 jobs: #Workflow run is made up of one or more jobs
-  deploy_zip:
+  provision_infra:
     name: update lambda function
     runs-on: ubuntu-latest
     steps:
@@ -59,12 +52,6 @@ jobs: #Workflow run is made up of one or more jobs
     - name: Terraform Format
       run: terraform fmt -check
 
-    # Generates an execution plan for Terraform
-    # - name: Terraform Plan
-    #   run: terraform plan -input=false
-
-      # On push to "master", build or change infrastructure according to Terraform configuration files
-      # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
     - name: Terraform Apply
       run: terraform apply -auto-approve -var-file=terraform.tfvars -input=false
       working-directory: infrastructure

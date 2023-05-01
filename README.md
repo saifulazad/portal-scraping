@@ -4,6 +4,29 @@
 
 [![Watch the video](https://github.com/saifulazad/portal-scraping/blob/mamun_wip/infrastructure/app.jpeg)](https://youtu.be/jtVVs7RWkkM)
 
+## Introduction
+Scraping is a hot topic nowadays. This is a demo about my scraping skill. [bdjobs](http://jobs.bdjobs.com/jobsearch.asp?fcatId=8) is the largest job posting site in Bangladesh. We are only concern on IT-related jobs.
+Please note that this is only for training and educational purpose. Do not use this to hamper our bdjobs portal.
+
+
+### Video references 
+[Provision Scraping Infrastructure by Terraform on AWS](https://www.youtube.com/watch?v=Sy3F6KeZE-8)
+[Scraper on AWS Lambda by Python Beautiful Soup](https://www.youtube.com/watch?v=BGD0vkHZY70)
+
+
+### How does it work:
+Basically, there are two folders. one is `scraper` and another is `extractor`.
+
+To understand and install `scraper` please follow this video [link.](https://www.youtube.com/watch?v=1j2Fl63QBFI)
+
+To understand and install `extractor` please follow this video [link.](https://www.youtube.com/watch?v=Z7eDjhczcgw)
+
+Please note that `scraper` folder will collect links by puppeteer and then those links will feed to `extractor` to collect
+details information from each link.
+
+
+
+
 
 ### Let's create the infrastructure 🚀
 This Terraform code creates a serverless architecture on AWS, which includes an S3 bucket, an
@@ -55,20 +78,6 @@ If everything is OK, Then deploy your project by following the command below
 After all the resource has been fully created, upload a file to the S3 bucket
 created, you'll see the lambda function has been triggered.
 
-
-## Introduction
-Scraping is a hot topic nowadays. This is a demo about my scraping skill. [bdjobs](http://jobs.bdjobs.com/jobsearch.asp?fcatId=8) is the largest job posting site in Bangladesh. We are only concern on IT-related jobs.
-Please note that this is only for training and educational purpose. Do not use this to hamper our bdjobs portal.
-
-## How does it work:
-Basically, there are two folders. one is `scraper` and another is `extractor`.
-
-To understand and install `scraper` please follow this video [link.](https://www.youtube.com/watch?v=1j2Fl63QBFI)
-
-To understand and install `extractor` please follow this video [link.](https://www.youtube.com/watch?v=Z7eDjhczcgw)
-
-Please note that `scraper` folder will collect links by puppeteer and then those links will feed to `extractor` to collect
-details information from each link.
 
 ### Contact
 
