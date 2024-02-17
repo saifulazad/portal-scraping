@@ -22,5 +22,5 @@ def lambda_handler(event, context):
 
 
 if __name__ == "__main__":
-    data = {"Records": [{"s3": {"object": {"key": "joblinksfile/2023-02-23"}}}]}
+    data = {"Records": [{"s3": {"object": {"key": "joblinksfile/2024-02-17"}}}]}
     lambda_handler(data, {})
