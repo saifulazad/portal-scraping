@@ -11,9 +11,9 @@ class Mapper(object):
             "addi_info": {"name": "Additional Information", "information": {}},
         }
         self.class_value_no_list = {
-            "jtitle": {"name": "Job Title", "tag": "h2"},
-            "cname": {"name": "Company Name", "tag": "h2"},
-            "compinfo": {"name": "Company Information", "tag": "div"},
+            "job-title": {"name": "Job Title", "tag": "h2", "updated_class": "jtitle"},
+            "company-name": {"name": "Company Name", "tag": "h2", "updated_class": "cname"},
+            "company-info": {"name": "Company Information", "tag": "div", "updated_class": "compinfo"},
         }
 
         self.soup = BeautifulSoup(
@@ -36,13 +36,14 @@ class Mapper(object):
         class_value_no_list_cloned = copy.deepcopy(self.class_value_no_list)
         for key in class_value_no_list_cloned:
             information = self.soup.find(
-                self.class_value_no_list[key]["tag"], attrs={"class": key}
+                self.class_value_no_list[key]["tag"], attrs={"class": self.class_value_no_list[key]["updated_class"]}
             )
             class_value_no_list_cloned[key][
                 "info"
             ] = information.text.strip()  # Store those as 'info' key
             del class_value_no_list_cloned[key]["tag"]
             del class_value_no_list_cloned[key]["name"]
+            del class_value_no_list_cloned[key]["updated_class"]
         return class_value_no_list_cloned
 
     def _extract_key_value_pairs(self, ul_element):
@@ -123,5 +124,4 @@ class Mapper(object):
         all_list_info = self._read_job_des_and_req()
 
         basic_info_list = self._read_basic_info()
-        print(all_list_info)
         return {**all_list_info, **basic_info_list}
