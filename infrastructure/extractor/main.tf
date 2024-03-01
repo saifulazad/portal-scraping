@@ -29,7 +29,7 @@ EOF
 }
 data "archive_file" "archive_zip_validate" {
   type        = "zip"
-  source_dir  = "../extractor"
+  source_dir  = "../../extractor"
   output_path = "extractor.zip"
 }
 
@@ -64,7 +64,7 @@ resource "aws_s3_bucket_notification" "aws_lambda_trigger" {
 }
 data "archive_file" "archive_scraper" {
   type        = "zip"
-  source_dir  = "../scraper"
+  source_dir  = "../../scraper"
   output_path = "scraper.zip"
 }
 
