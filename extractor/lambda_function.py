@@ -5,6 +5,8 @@ import boto3
 from settings import BUCKET_NAME
 
 
+
+
 def lambda_handler(event, context):
     file_obj = event["Records"][0]
     filename = str(file_obj["s3"]["object"]["key"])
