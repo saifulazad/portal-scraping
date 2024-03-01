@@ -33,7 +33,7 @@ jobs: #Workflow run is made up of one or more jobs
         TFVARFILE: ${{ secrets.TFVARFILE }}
       run: |
           echo $TFVARFILE | base64 --decode  > terraform.tfvars
-      working-directory: infrastructure
+      working-directory: infrastructure/extractor
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -47,11 +47,11 @@ jobs: #Workflow run is made up of one or more jobs
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: terraform init 
-      working-directory: infrastructure
+      working-directory: infrastructure/extractor
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
       run: terraform fmt -check
 
     - name: Terraform Apply
       run: terraform apply -auto-approve -var-file=terraform.tfvars -input=false
-      working-directory: infrastructure
+      working-directory: infrastructure/extractor
