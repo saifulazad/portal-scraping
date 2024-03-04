@@ -90,14 +90,14 @@ resource "aws_lambda_permission" "allow_cloudwatch_to_invoke" {
   function_name = aws_lambda_function.scraper_lambda_handler.function_name
   statement_id  = "CloudWatchInvoke"
   action        = "lambda:InvokeFunction"
-  source_arn = aws_cloudwatch_event_rule.scraper_lambda_event.arn
-  principal  = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.scraper_lambda_event.arn
+  principal     = "events.amazonaws.com"
 }
 
 // Create the "cron" schedule
 resource "aws_cloudwatch_event_rule" "scraper_lambda_event" {
   name                = "bd-jobs-cron"
-  description = "trigger lambda function"
+  description         = "trigger lambda function"
   schedule_expression = var.schedule
 }
 
