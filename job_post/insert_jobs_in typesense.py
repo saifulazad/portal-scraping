@@ -1,3 +1,4 @@
+from extractor.settings import BUCKET_NAME
 import typesense
 import os
 import unicodedata
@@ -89,12 +90,12 @@ def filter_json_data(data):
 def transform_job(prefix):
     new_jobs = []
     s3 = boto3.resource('s3')
-    my_bucket = s3.Bucket('extractor-service-dev')
-    objs = my_bucket.objects.filter(Prefix=prefix)
+    bucket = s3.Bucket(BUCKET_NAME)
+    objs = bucket.objects.filter(Prefix=prefix)
     files = [obj.key for obj in sorted(objs, key=lambda x: x.last_modified, reverse=True)]
 
     for file in files:
-        obj = s3.Object(bucket_name='extractor-service-dev', key=file)
+        obj = s3.Object(bucket_name=BUCKET_NAME, key=file)
         body = obj.get()['Body'].read()
         python_object = json.loads(body.decode('utf-8'))
         job_data = filter_json_data(python_object)
