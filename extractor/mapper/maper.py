@@ -12,8 +12,16 @@ class Mapper(object):
         }
         self.class_value_no_list = {
             "job-title": {"name": "Job Title", "tag": "h2", "updated_class": "jtitle"},
-            "company-name": {"name": "Company Name", "tag": "h2", "updated_class": "cname"},
-            "company-info": {"name": "Company Information", "tag": "div", "updated_class": "compinfo"},
+            "company-name": {
+                "name": "Company Name",
+                "tag": "h2",
+                "updated_class": "cname",
+            },
+            "company-info": {
+                "name": "Company Information",
+                "tag": "div",
+                "updated_class": "compinfo",
+            },
         }
 
         self.soup = BeautifulSoup(
@@ -23,12 +31,12 @@ class Mapper(object):
     def _read_additional_info(self):
         panel_body = self.soup.find("div", {"class": "jobcontent"})
         data = {}
-        divs = panel_body.find_all('div', class_='col-sm-12')
+        divs = panel_body.find_all("div", class_="col-sm-12")
         for div in divs:
-            heading = div.find('h5', class_='subheading')
+            heading = div.find("h5", class_="subheading")
             if heading:
                 keys = heading.text.strip()
-                items = div.find_all('li')
+                items = div.find_all("li")
                 data[keys] = items
         return data
 
@@ -36,7 +44,8 @@ class Mapper(object):
         class_value_no_list_cloned = copy.deepcopy(self.class_value_no_list)
         for key in class_value_no_list_cloned:
             information = self.soup.find(
-                self.class_value_no_list[key]["tag"], attrs={"class": self.class_value_no_list[key]["updated_class"]}
+                self.class_value_no_list[key]["tag"],
+                attrs={"class": self.class_value_no_list[key]["updated_class"]},
             )
             class_value_no_list_cloned[key][
                 "info"
@@ -47,48 +56,48 @@ class Mapper(object):
         return class_value_no_list_cloned
 
     def _extract_key_value_pairs(self, ul_element):
-        li_elements = ul_element.find_all('li')
+        li_elements = ul_element.find_all("li")
         data = {}
         for li in li_elements:
-            key = li.contents[0].strip(':').strip()
-            value = li.find('span').text.strip()
-            data[key[:len(key) - 1]] = value  # Remove the trailing colon
+            key = li.contents[0].strip(":").strip()
+            value = li.find("span").text.strip()
+            data[key[: len(key) - 1]] = value  # Remove the trailing colon
         return data
 
     def _extract_job_resp_benefits(self, information, class_value_has_list_cloned):
         keys = ["job_resp", "benefits"]
         for key in keys:
             try:
-                job_info = information.select(f'div.col-sm-12 > h4#{key}')[0].parent
-                h4_tag = job_info.find('h4', class_='sectxt')
-                if 'job_resp' in h4_tag['id']:
+                job_info = information.select(f"div.col-sm-12 > h4#{key}")[0].parent
+                h4_tag = job_info.find("h4", class_="sectxt")
+                if "job_resp" in h4_tag["id"]:
                     self._extract_job_response(job_info, class_value_has_list_cloned)
-                elif 'benefits' in h4_tag['id']:
+                elif "benefits" in h4_tag["id"]:
                     self._extract_benefits(job_info, class_value_has_list_cloned)
             except:
                 pass
 
     def _extract_job_response(self, job_info, class_value_has_list_cloned):
-        if job_info.find('li'):
-            for item in job_info.find_all(['li']):
-                class_value_has_list_cloned['job_des']["descriptions"].append(
+        if job_info.find("li"):
+            for item in job_info.find_all(["li"]):
+                class_value_has_list_cloned["job_des"]["descriptions"].append(
                     item.text.strip()
                 )
         else:
-            for item in job_info.find_all(['p']):
-                class_value_has_list_cloned['job_des']["descriptions"].append(
+            for item in job_info.find_all(["p"]):
+                class_value_has_list_cloned["job_des"]["descriptions"].append(
                     item.text.strip()
                 )
 
     def _extract_benefits(self, job_info, class_value_has_list_cloned):
-        if job_info.find('li'):
-            for item in job_info.find_all('li'):
-                class_value_has_list_cloned['oth_ben']["descriptions"].append(
+        if job_info.find("li"):
+            for item in job_info.find_all("li"):
+                class_value_has_list_cloned["oth_ben"]["descriptions"].append(
                     item.text.strip()
                 )
         else:
-            for item in job_info.find_all('p'):
-                class_value_has_list_cloned['oth_ben']["descriptions"].append(
+            for item in job_info.find_all("p"):
+                class_value_has_list_cloned["oth_ben"]["descriptions"].append(
                     item.text.strip()
                 )
 
@@ -96,18 +105,18 @@ class Mapper(object):
         class_value_has_list_cloned = copy.deepcopy(self.class_value_has_list)
 
         additional_info = self._read_additional_info()
-        items = additional_info['Additional Requirements']
+        items = additional_info["Additional Requirements"]
 
         for item in items:
-            class_value_has_list_cloned['job_req']["descriptions"].append(
+            class_value_has_list_cloned["job_req"]["descriptions"].append(
                 item.text.strip()
             )
 
-        summery_items = self.soup.find(class_='summery__items')
+        summery_items = self.soup.find(class_="summery__items")
         data = self._extract_key_value_pairs(summery_items)
         class_value_has_list_cloned["addi_info"]["information"].update(data)
 
-        information = self.soup.find('div', class_='jobcontent')
+        information = self.soup.find("div", class_="jobcontent")
         self._extract_job_resp_benefits(information, class_value_has_list_cloned)
 
         return class_value_has_list_cloned
