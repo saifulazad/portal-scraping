@@ -10,7 +10,7 @@ provider "aws" {
 }
 #IAM Permission for lamda
 resource "aws_iam_role" "lambda_role" {
-  name = "my-lambda-role-2"
+  name = "lambda_impoter_role"
 
   assume_role_policy = <<EOF
 {
@@ -43,7 +43,7 @@ data "aws_iam_policy_document" "assume_role" {
 }
 
 resource "aws_iam_role" "iam_for_lambda" {
-  name               = "iam_for_lambda"
+  name               = "lambda_impoter_job_post"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
   managed_policy_arns = ["arn:aws:iam::aws:policy/AmazonS3FullAccess",
   "arn:aws:iam::aws:policy/CloudWatchFullAccess", ]
