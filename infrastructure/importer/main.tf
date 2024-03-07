@@ -5,13 +5,10 @@ terraform {
     region = "ap-southeast-1"
   }
 }
-provider "aws" {
-  region = "ap-southeast-1"
-}
+
 #IAM Permission for lamda
 resource "aws_iam_role" "lambda_role" {
-  name = "lambda_impoter_role"
-
+  name               = "job-importer-lambda-role"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -27,49 +24,68 @@ resource "aws_iam_role" "lambda_role" {
 }
 EOF
 }
+resource "aws_iam_role_policy" "job_importer_keys_role_policy" {
+  name = var.lambda_iam_policy_name
+  role = aws_iam_role.lambda_iam.id
 
-#Create Lambda
-data "aws_iam_policy_document" "assume_role" {
-  statement {
-    effect = "Allow"
-
-    principals {
-      type        = "Service"
-      identifiers = ["lambda.amazonaws.com"]
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "s3:*",
+        "logs:*"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
     }
-
-    actions = ["sts:AssumeRole"]
-  }
+  ]
 }
-
-resource "aws_iam_role" "iam_for_lambda" {
-  name               = "lambda_impoter_job_post"
-  assume_role_policy = data.aws_iam_policy_document.assume_role.json
-  managed_policy_arns = ["arn:aws:iam::aws:policy/AmazonS3FullAccess",
-  "arn:aws:iam::aws:policy/CloudWatchFullAccess", ]
+EOF
 }
-
 data "archive_file" "archive_zip_validate" {
   type        = "zip"
   source_dir  = "../../job_post"
   output_path = "job_post.zip"
 }
 
-resource "aws_lambda_function" "test_lambda" {
-  # If the file is not in the current working directory you will need to include a
-  # path.module in the filename.
-  filename      = "job_post.zip"
-  function_name = "job_importer"
-  role          = aws_iam_role.iam_for_lambda.arn
-  handler       = "lambda_function.lambda_handler"
-
+# Creating Lambda resource
+resource "aws_lambda_function" "job_post_lambda_handler" {
+  function_name    = var.function_name
+  role             = aws_iam_role.lambda_iam.arn
+  handler          = "${var.handler_name}.lambda_handler"
+  description      = "https://github.com/saifulazad/portal-scraping/tree/master/job_post"
+  runtime          = var.runtime
+  timeout          = var.timeout
+  architectures    = ["arm64"]
+  layers           = [var.lambda_layers]
+  filename         = data.archive_file.archive_zip_validate.output_path
   source_code_hash = data.archive_file.archive_zip_validate.output_base64sha256
-
-  runtime = "python3.9"
-
   environment {
     variables = {
-      foo = "bar"
+      API_KEY = var.typesense_api_key
     }
   }
+}
+
+// Allow CloudWatch to invoke our function
+resource "aws_lambda_permission" "allow_cloudwatch_to_invoke" {
+  function_name = aws_lambda_function.job_post_lambda_handler.function_name
+  statement_id  = "CloudWatchInvoke"
+  action        = "lambda:InvokeFunction"
+  source_arn    = aws_cloudwatch_event_rule.job_post_lambda_event.arn
+  principal     = "events.amazonaws.com"
+}
+
+// Create the "cron" schedule
+resource "aws_cloudwatch_event_rule" "job_post_lambda_event" {
+  name                = "jobs-importer-cron"
+  description         = "trigger lambda function"
+  schedule_expression = var.schedule
+}
+
+resource "aws_cloudwatch_event_target" "invoke_scraper_lambda_handler" {
+  rule = aws_cloudwatch_event_rule.job_post_lambda_event.name
+  arn  = aws_lambda_function.job_post_lambda_handler.arn
 }
