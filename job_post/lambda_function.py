@@ -112,9 +112,9 @@ def lambda_handler(event, context):
 
     if new_jobs:
         print(new_jobs)
-        # import_results = client.collections["jobs"].documents.import_(
-        #     new_jobs, {"action": "upsert", "return_id": True}
-        # )
+        import_results = client.collections["jobs"].documents.import_(
+            new_jobs, {"action": "upsert", "return_id": True}
+        )
     return import_results
 
 
