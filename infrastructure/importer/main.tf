@@ -80,7 +80,7 @@ resource "aws_lambda_permission" "allow_cloudwatch_to_invoke" {
 
 // Create the "cron" schedule
 resource "aws_cloudwatch_event_rule" "job_post_lambda_event" {
-  name                = "jobs-importer-cron"
+  name                = "importer-cron"
   description         = "trigger lambda function"
   schedule_expression = var.schedule
 }

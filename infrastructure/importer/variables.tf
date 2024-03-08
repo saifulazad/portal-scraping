@@ -32,5 +32,5 @@ variable "zip_file" {
   default = "job-post.zip"
 }
 variable "schedule" {
-  default = "cron(20 0 * * ? *)"
+  default = "cron(20 18 * * ? *)"
 }
