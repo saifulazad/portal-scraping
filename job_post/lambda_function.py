@@ -12,7 +12,7 @@ current_date = datetime.datetime.now()
 s3 = boto3.resource('s3')
 
 client = typesense.Client({
-    'api_key': "761db557-3c4b-44ab-a223-7b870855bc8c",
+    'api_key': os.environ['API_KEY'],
     'nodes': [{
         'host': 'typesense.fractalslab.com',
         'port': '443',
