@@ -5,7 +5,7 @@ import unicodedata
 import pytz
 import json
 import boto3
-from datetime import datetime
+from datetime import datetime, timedelta
 import datetime
 
 current_date = datetime.datetime.now()
@@ -121,7 +121,8 @@ def save_job_ids(ids):
 
 
 def lambda_handler(event, context):
-    prefix = current_date.strftime("jobs-post/%y/%m/%d")
+    prefix = current_date - timedelta(minutes=5).strftime("jobs-post/%y/%m/%d")
+    print(prefix)
     new_jobs = transform_job(prefix)
     import_results = []
 
