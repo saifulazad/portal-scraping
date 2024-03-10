@@ -121,7 +121,7 @@ def save_job_ids(ids):
 
 
 def lambda_handler(event, context):
-    prefix = current_date - timedelta(minutes=5).strftime("jobs-post/%y/%m/%d")
+    prefix = (current_date - timedelta(minutes=5)).strftime("jobs-post/%y/%m/%d")
     print(prefix)
     new_jobs = transform_job(prefix)
     import_results = []
