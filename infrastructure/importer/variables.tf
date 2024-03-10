@@ -37,5 +37,6 @@ variable "zip_file" {
   default = "job-post.zip"
 }
 variable "schedule" {
+  # The default value represents a cron expression scheduling a task to run every day at 6:20 PM. https://crontab.cronhub.io
   default = "cron(20 18 * * ? *)"
 }
