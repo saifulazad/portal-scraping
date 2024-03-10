@@ -20,7 +20,7 @@ data "aws_iam_policy_document" "assume_role" {
 
 # Creating Lambda IAM resource
 resource "aws_iam_role" "iam_for_lambda" {
-  name                = "lambda_importer_job_post"
+  name                = "lambda_importer_job_import"
   assume_role_policy  = data.aws_iam_policy_document.assume_role.json
   managed_policy_arns = [
     "arn:aws:iam::aws:policy/AmazonS3FullAccess",
@@ -35,28 +35,6 @@ resource "aws_lambda_permission" "lambda_permission" {
   principal     = "s3.amazonaws.com"
   source_arn    = "arn:aws:s3:::extractor-service-dev"
 }
-
-resource "aws_iam_role_policy" "job_importer_keys_role_policy" {
-  name = var.lambda_iam_policy_name
-  role = aws_iam_role.iam_for_lambda.id
-
-  # Terraform's "jsonencode" function converts a
-  # Terraform expression result to valid JSON syntax.
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = [
-          "s3:*",
-          "logs:*"
-        ]
-        Effect   = "Allow"
-        Resource = "*"
-      },
-    ]
-  })
-}
-
 data "archive_file" "archive_zip_validate" {
   type        = "zip"
   source_dir  = "../../job_post"
@@ -68,7 +46,7 @@ resource "aws_lambda_function" "job_post_lambda_handler" {
   function_name    = var.function_name
   role             = aws_iam_role.iam_for_lambda.arn
   handler          = "${var.handler_name}.lambda_handler"
-  description      = "https://github.com/saifulazad/portal-scraping/tree/master/job_post"
+  description      = "https://github.com/saifulazad/portal-scraping/tree/master/job_importer"
   runtime          = var.runtime
   timeout          = var.timeout
   architectures    = ["arm64"]

@@ -1,3 +1,25 @@
+data "aws_iam_policy_document" "assume_role" {
+  statement {
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
+    }
+
+    actions = ["sts:AssumeRole"]
+  }
+}
+
+# Creating Lambda IAM resource
+resource "aws_iam_role" "iam_for_lambda" {
+  name                = "lambda_importer_job_post"
+  assume_role_policy  = data.aws_iam_policy_document.assume_role.json
+  managed_policy_arns = [
+    "arn:aws:iam::aws:policy/AmazonS3FullAccess",
+    "arn:aws:iam::aws:policy/CloudWatchFullAccess",
+  ]
+}
 data "archive_file" "archive_job_importer_zip_validate" {
   type        = "zip"
   source_dir  = "../../job_importer"
@@ -10,7 +32,7 @@ resource "aws_lambda_function" "job_importer_lambda_handler" {
   function_name    = "job-importer"
   role             = aws_iam_role.iam_for_lambda.arn
   handler          = "lambda_function.lambda_handler"
-  description      = "https://github.com/saifulazad/portal-scraping/tree/master/job_importer"
+  description      = "https://github.com/saifulazad/portal-scraping/tree/master/job_post"
   architectures    = ["arm64"]
   layers           = [var.lambda_layer]
   source_code_hash = data.archive_file.archive_job_importer_zip_validate.output_base64sha256
