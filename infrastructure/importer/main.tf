@@ -27,25 +27,17 @@ resource "aws_iam_role" "iam_for_lambda" {
     "arn:aws:iam::aws:policy/CloudWatchFullAccess",
   ]
 }
-
-resource "aws_lambda_permission" "lambda_permission" {
-  statement_id  = "AllowS3Invoke"
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.job_post_lambda_handler.function_name
-  principal     = "s3.amazonaws.com"
-  source_arn    = "arn:aws:s3:::extractor-service-dev"
-}
 data "archive_file" "archive_zip_validate" {
   type        = "zip"
-  source_dir  = "../../job_post"
-  output_path = "job_post.zip"
+  source_dir  = "../../job_importer"
+  output_path = "job_importer.zip"
 }
 
 # Creating Lambda resource
-resource "aws_lambda_function" "job_post_lambda_handler" {
+resource "aws_lambda_function" "lambda_handler" {
   function_name    = var.function_name
   role             = aws_iam_role.iam_for_lambda.arn
-  handler          = "${var.handler_name}.lambda_handler"
+  handler          = "lambda_function.lambda_handler"
   description      = "https://github.com/saifulazad/portal-scraping/tree/master/job_importer"
   runtime          = var.runtime
   timeout          = var.timeout
@@ -61,7 +53,7 @@ resource "aws_lambda_function" "job_post_lambda_handler" {
 }
 // Allow CloudWatch to invoke our function
 resource "aws_lambda_permission" "allow_cloudwatch_to_invoke" {
-  function_name = aws_lambda_function.job_post_lambda_handler.function_name
+  function_name = aws_lambda_function.lambda_handler.function_name
   statement_id  = "CloudWatchInvoke"
   action        = "lambda:InvokeFunction"
   source_arn    = aws_cloudwatch_event_rule.job_post_lambda_event.arn
@@ -70,12 +62,12 @@ resource "aws_lambda_permission" "allow_cloudwatch_to_invoke" {
 
 // Create the "cron" schedule
 resource "aws_cloudwatch_event_rule" "job_post_lambda_event" {
-  name                = "importer-cron"
-  description         = "trigger lambda function"
+  name                = "job-importer-cron"
+  description         = "Allow to run lambda function in cron job"
   schedule_expression = var.schedule
 }
 
 resource "aws_cloudwatch_event_target" "invoke_scraper_lambda_handler" {
   rule = aws_cloudwatch_event_rule.job_post_lambda_event.name
-  arn  = aws_lambda_function.job_post_lambda_handler.arn
+  arn  = aws_lambda_function.lambda_handler.arn
 }
