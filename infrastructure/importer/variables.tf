@@ -24,10 +24,10 @@ variable "lambda_role_name" {
 variable "lambda_iam_policy_name" {
   default = "job-post-lambda-handler-policy"
 }
-variable "lambda_layers" {
+variable "lambda_layer" {
   default = "arn:aws:lambda:ap-southeast-1:940443069190:layer:job-post:1"
 }
-variable "job_importer_lambda_layers" {
+variable "job_importer_lambda_layer" {
   default = "arn:aws:lambda:ap-southeast-1:940443069190:layer:google-map:2"
 }
 variable "environment" {
@@ -37,6 +37,6 @@ variable "zip_file" {
   default = "job-post.zip"
 }
 variable "schedule" {
-  # The default value represents a cron expression scheduling a task to run every day at 6:20 PM. https://crontab.cronhub.io
-  default = "cron(20 18 * * ? *)"
+  # The default value represents a cron expression scheduling a task to run every day at 12:00 AM. https://crontab.cronhub.io
+  default = "cron(0 0 * * ? *)"
 }
