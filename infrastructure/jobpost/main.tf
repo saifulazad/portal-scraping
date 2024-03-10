@@ -12,7 +12,7 @@ resource "aws_lambda_function" "job_importer_lambda_handler" {
   handler          = "lambda_function.lambda_handler"
   description      = "https://github.com/saifulazad/portal-scraping/tree/master/job_importer"
   architectures    = ["arm64"]
-  layers           = [var.job_importer_lambda_layer]
+  layers           = [var.lambda_layer]
   source_code_hash = data.archive_file.archive_job_importer_zip_validate.output_base64sha256
   runtime          = "python3.9"
   environment {

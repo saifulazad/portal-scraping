@@ -1,9 +1,7 @@
 variable "typesense_api_key" {
   type    = string
 }
-variable "google_map_api_key" {
-  type = string
-}
+
 variable "function_name" {
   default = "job-post-lambda-handler"
 }
@@ -26,9 +24,6 @@ variable "lambda_iam_policy_name" {
 }
 variable "lambda_layer" {
   default = "arn:aws:lambda:ap-southeast-1:940443069190:layer:job-post:1"
-}
-variable "job_importer_lambda_layer" {
-  default = "arn:aws:lambda:ap-southeast-1:940443069190:layer:google-map:2"
 }
 variable "environment" {
   default = "dev"
