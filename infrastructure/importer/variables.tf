@@ -1,19 +1,16 @@
 variable "typesense_api_key" {
   type    = string
+  default = "761db557-3c4b-44ab-a223-7b870855bc8c"
 }
 
 variable "function_name" {
-  default = "job-post-lambda-handler"
+  default = "job-import"
 }
-variable "handler_name" {
-  default = "lambda_function"
-}
-
 variable "runtime" {
   default = "python3.8"
 }
 variable "timeout" {
-  default = "300"
+  default = "300" # the unit is in second
 }
 variable "lambda_role_name" {
   default = "job-post-lambda-handler-role"
@@ -24,9 +21,6 @@ variable "lambda_iam_policy_name" {
 }
 variable "lambda_layer" {
   default = "arn:aws:lambda:ap-southeast-1:940443069190:layer:job-post:1"
-}
-variable "environment" {
-  default = "dev"
 }
 variable "zip_file" {
   default = "job-post.zip"
