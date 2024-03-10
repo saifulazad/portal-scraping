@@ -63,7 +63,7 @@ resource "aws_lambda_permission" "allow_cloudwatch_to_invoke" {
 // Create the "cron" schedule
 resource "aws_cloudwatch_event_rule" "job_post_lambda_event" {
   name                = "job-importer-cron"
-  description         = "Allow to run lambda function in cron job"
+  description         = "Allow to run lambda function in cron job. Lambda will import jobs to typesense instance."
   schedule_expression = var.schedule
 }
 
