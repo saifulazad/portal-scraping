@@ -1,6 +1,5 @@
 variable "typesense_api_key" {
   type    = string
-  default = "761db557-3c4b-44ab-a223-7b870855bc8c"
 }
 
 variable "function_name" {
