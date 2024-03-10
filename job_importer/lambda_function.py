@@ -54,7 +54,6 @@ def lambda_handler(event, context):
     payload = json.loads(event["body"])["data"]
     key = payload["submissionId"]
     file_name = f"{prefix}/{key}.json"
-    print(event)
     upload_jobs_details(
         key=file_name, content=payload, bucket_name="extractor-service-dev"
     )
