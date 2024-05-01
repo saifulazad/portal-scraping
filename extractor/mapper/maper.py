@@ -105,13 +105,15 @@ class Mapper(object):
         class_value_has_list_cloned = copy.deepcopy(self.class_value_has_list)
 
         additional_info = self._read_additional_info()
-        items = additional_info["Additional Requirements"]
-
-        for item in items:
-            class_value_has_list_cloned["job_req"]["descriptions"].append(
-                item.text.strip()
-            )
-
+        try:
+            items = additional_info["Additional Requirements"]
+            for item in items:
+                class_value_has_list_cloned["job_req"]["descriptions"].append(
+                    item.text.strip()
+                )
+        except KeyError:
+            # Handle the case when "Additional Requirements" key is not found
+            pass
         summery_items = self.soup.find(class_="summery__items")
         data = self._extract_key_value_pairs(summery_items)
         class_value_has_list_cloned["addi_info"]["information"].update(data)
