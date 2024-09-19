@@ -3,8 +3,9 @@ import boto3
 import json
 import pytz
 import unicodedata
-from datetime import datetime
+from datetime import timedelta , datetime 
 from dateutil import parser
+
 
 # Initialize Typesense client
 client = typesense.Client({
@@ -23,6 +24,7 @@ my_bucket = s3.Bucket('extractor-service-dev')
 
 # Define your local timezone
 local = pytz.timezone("Asia/Dhaka")
+
 
 def filter_json_data(data):
     """
@@ -80,6 +82,7 @@ def filter_json_data(data):
 
     return values
 
+
 def transform_jobs(prefix):
     """
     Transform and filter all JSON files in the specified S3 folder.
@@ -93,15 +96,16 @@ def transform_jobs(prefix):
     new_jobs = []
     objs = my_bucket.objects.filter(Prefix=prefix)
     files = [obj.key for obj in sorted(objs, key=lambda x: x.last_modified, reverse=True)]
-
-    for file_key in files:
+    print(files.pop())
+    for file_key in files[:-1]:
         obj = s3.Object(bucket_name='extractor-service-dev', key=file_key)
         body = obj.get()['Body'].read()
         pythonObject = json.loads(body.decode('utf-8'))
         job_data = filter_json_data(pythonObject)
         new_jobs.append(job_data)
-    
+
     return new_jobs
+
 
 def jobs_import(prefix):
     """
@@ -121,14 +125,20 @@ def jobs_import(prefix):
         )
     return import_results
 
+
 def lambda_handler(event, context):
+    current_date = datetime.now()
     # Specify the folder path prefix
-    prefix = 'jobs/%y/%m/%d'
-    
+    prefix = (current_date - timedelta(minutes=5)).strftime("jobs/%y/%m/%d")
+    print(prefix)
+
     # Import jobs from S3 and insert into Typesense
     data = jobs_import(prefix)
-    
+
     return {
         'statusCode': 200,
         'body': json.dumps(data)
     }
+
+if __name__ == "__main__":
+    lambda_handler({}, {})
