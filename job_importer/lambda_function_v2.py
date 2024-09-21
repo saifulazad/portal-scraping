@@ -19,14 +19,12 @@ client = typesense.Client(
     }
 )
 
-
 # Initialize AWS resources
 s3 = boto3.resource('s3')
 my_bucket = s3.Bucket('extractor-service-dev')
 
 # Define your local timezone
 local = pytz.timezone("Asia/Dhaka")
-
 
 def filter_json_data(data):
     """
@@ -62,11 +60,14 @@ def filter_json_data(data):
         "post_link": unicodedata.normalize("NFKD", data.get("post_link", "")),
     }
 
-    # Parse the post_date using dateutil.parser
+    # Parse the post_date using the datetime module
     post_date = data.get("post_date", "")
     if post_date:
         try:
-            datetime_object = parser.parse(post_date)
+            # Since post_date is in "%Y-%m-%dT%H:%M:%S.%fZ" format, use strptime
+            datetime_object = datetime.strptime(post_date, "%Y-%m-%dT%H:%M:%S.%fZ")
+            
+            # Convert to local timezone and then to UTC
             local_dt = local.localize(datetime_object, is_dst=None)
             utc_dt = local_dt.astimezone(pytz.utc)
             values["post_created_at"] = int(utc_dt.timestamp())
