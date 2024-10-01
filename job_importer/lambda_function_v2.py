@@ -130,7 +130,7 @@ def jobs_import(prefix):
 def lambda_handler(event, context):
     current_date = datetime.now()
     # Specify the folder path prefix
-    prefix = (current_date - timedelta(minutes=5)).strftime("jobs/%y/%m/%d")
+    prefix = (current_date - timedelta(minutes=5)).strftime("job-creation/prod/%y/%m/%d")
     print(prefix)
     # Import jobs from S3 and insert into Typesense
     data = jobs_import(prefix)
